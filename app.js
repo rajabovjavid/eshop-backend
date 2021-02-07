@@ -4,22 +4,26 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const cors = require('cors');
+const cors = require("cors");
+const authJwt = require("./helpers/jwt");
+const errorHandler = require("./helpers/error-handler");
+
+const app = express();
+
+app.use(cors());
+app.options("*", cors());
+
+// middleware
+app.use(bodyParser.json());
+app.use(morgan("tiny"));
+app.use(authJwt());
+app.use(errorHandler);
 
 //Routes
 const productRouter = require("./routers/product");
 const userRouter = require("./routers/user");
 const orderRouter = require("./routers/order");
 const categoryRouter = require("./routers/category");
-
-const app = express();
-
-app.use(cors());
-app.options('*', cors())
-
-// middleware
-app.use(bodyParser.json());
-app.use(morgan("tiny"));
 
 const api_url = process.env.API_URL;
 app.use(`${api_url}/products`, productRouter);
