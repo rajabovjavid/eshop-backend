@@ -34,7 +34,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/product", async (req, res) => {
-  console.log(1)
   if (!mongoose.isValidObjectId(req.query.id)) {
     res.status(400).json({ success: false, message: "Invalid Product Id" });
   }
@@ -97,7 +96,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/product", async (req, res) => {
-  //checking category id
+  /* //checking category id
   if (!mongoose.isValidObjectId(req.body.category)) {
     res.status(400).json({ success: false, message: "Invalid Category Id" });
   }
@@ -106,7 +105,7 @@ router.put("/product", async (req, res) => {
   const category = await Category.findById(req.body.category);
   if (!category) {
     res.status(404).json({ message: "Category was not found", success: false });
-  }
+  } */
 
   //checking product id
   if (!mongoose.isValidObjectId(req.query.id)) {
@@ -132,11 +131,11 @@ router.delete("/", async (req, res) => {
   const product = await Product.findByIdAndDelete(req.body.id);
 
   if (!product) {
-    return res
+    res
       .status(404)
       .json({ success: false, message: "product is not deleted" });
   }
-  return res.status(200).json({ success: true, message: "product is deleted" });
+  res.status(200).json({ success: true, message: "product is deleted" });
 });
 
 module.exports = router;
